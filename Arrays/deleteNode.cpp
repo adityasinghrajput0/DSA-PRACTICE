@@ -1,5 +1,8 @@
-class Node {
-    private:
+#include <iostream>
+using namespace std;
+
+struct Node {
+    public:
         int data;
         Node* next;
     public:
@@ -7,7 +10,7 @@ class Node {
             this->data=data;
             this->next=NULL;
         }
-}
+};
 
 Node* removeK(int k,Node* head) {
     if (head==NULL) return NULL;
@@ -17,7 +20,8 @@ Node* removeK(int k,Node* head) {
         delete temp;
         return head;
     }
-    Node* temp=head,prev=NULL;
+    Node* temp=head;
+    Node* prev=NULL;
     int cnt=0;
     while (temp != NULL) {
         cnt++;
