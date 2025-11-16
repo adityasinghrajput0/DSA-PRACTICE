@@ -24,11 +24,16 @@ Node* insertTail(Node* head,Node* newNode) {
         temp=temp->next;
     }
     temp->next=newNode;
+    return head;
 }
 
 Node* insertK(Node* head, Node* newNode,int k) {
-    if (newNode==NULL) return;
+    if (newNode==NULL) return head;
     if (head==nullptr) return newNode;
+    if (k==1){
+        newNode->next=head;
+        return newNode;
+    } 
     Node* temp=head;
     Node* prev=NULL;
     int cnt=0;
@@ -37,8 +42,12 @@ Node* insertK(Node* head, Node* newNode,int k) {
         if (cnt==k) {
             prev->next=newNode;
             newNode->next=temp;
+            return head;
         }
         prev=temp;
-        temp->next=temp;
+        temp=temp->next;
     }
+    prev->next=newNode;
+    newNode->next=NULL;
+    return head;
 }
