@@ -1,5 +1,5 @@
 #include <iostream>
-#define MAX 10
+#define MAX 5
 using namespace std;
 
 struct Node {
@@ -16,14 +16,15 @@ Node* head=NULL;
 int top=0;
 
 Node* push(Node* newNode) {
-    if (top==MAX) {
+    if (top>=MAX) {
         cout<<"Stack Overflow";
         return head;
     }
     if (head==NULL){
         head=newNode;
-        return head;
         top++;
+        cout<<newNode->data<<" pushed";
+        return head;
     }
     Node* temp=head;
     newNode->next=temp;
@@ -63,6 +64,7 @@ int main() {
     int ch,ele;
     while (1) {
         cout<<endl;
+        cout<<"---Stack Menu---\n";
         cout<<"1.Push"<<endl;
         cout<<"2.Pop"<<endl;
         cout<<"3.Display"<<endl;
