@@ -16,13 +16,11 @@ void enqueue(int ele) {
         return;
     }
     if (front==-1) {
-        front=rear=0;
+        front=0;
     }
-    else {
-        queue[rear]=ele;
-        rear=(rear+1)%MAX;
-        printf("\nElement inserted at %d : %d",rear,ele);
-    }
+    rear=(rear+1)%MAX;
+    queue[rear]=ele;
+    printf("\nElement inserted at %d : %d\n",rear,ele);
 }
 
 void dequeue() {
@@ -48,8 +46,9 @@ void display() {
     else {
         int i=front;
         printf("\nElements of queue are: ");
-        while (i<=rear) {
+        while (1) {
             printf(" %d",queue[i]);
+            if (i==rear) break;
             i=(i+1)%MAX;
         }
     }
