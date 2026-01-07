@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    void insertBottom(stack<int> &st,int val) {
+        if (st.empty()) {
+            st.push(val);
+            return;
+        }
+        int topval=st.top();
+        st.pop();
+        insertBottom(st,val);
+        st.push(topval);
+    }
+    void reverseStack(stack<int> &st) {
+        // code here
+        if (st.empty()) return;
+        int topval=st.top();
+        st.pop();
+        reverseStack(st);
+        insertBottom(st,topval);
+    }
+};
