@@ -18,7 +18,7 @@ node createNode(int data) {
 }
 
 node insert(node root,int data) {
-    if (root==NULL ) return createNode(data);
+    if (root==NULL) return createNode(data);
     else if(data<root->val) root->left=insert(root->left,data);
     else root->right=insert(root->right,data);
     return root;

@@ -1,0 +1,19 @@
+class Solution {
+public:
+    static const long long MOD=1000000007;
+    long long helper(long long n, long long exp) {
+        if (exp==0) return 1;
+        if (exp%2==0) return helper((n*n)%MOD,exp/2);
+        return (n*helper(n,exp-1))%MOD;
+    }
+    int countGoodNumbers(long long n) {
+        long long exp_even=(n+1)/2;
+        long long exp_odd=n/2;
+        long long result=helper(5,exp_even);
+        result*=helper(4,exp_odd)%MOD;
+        result%=MOD;
+        return (int) result;
+    }
+};
+
+In the above solution make every variable long long to handle overflow and use % operator overflow may be possible.
