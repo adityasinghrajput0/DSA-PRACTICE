@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int minBitFlips(int start, int goal) {
+        int ans=start^goal;//by doing this we get to know which all bits are flipped
+        int cnt=0;
+        while (ans>0) {
+            if (ans & 1) cnt++; //checking if ith bit is flipped or not , if yes cnt++;
+            ans=ans>>1;
+        }
+        return cnt;
+    }
+};
