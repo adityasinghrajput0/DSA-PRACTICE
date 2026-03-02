@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        if (nums.size()==2) return nums;
+        long long x=0;
+        for (int num: nums) x^=num; // returns xor of two unique numbers
+        long long right_most_setbit=x&(-x); //right most set bit, used to differentiate nums based on 0 and 1
+        // passed into two subgroups num1 and num2, xor simultaneously to remove duplicates
+        int num1=0,num2=0;
+        for (int num: nums) {
+            if (num&right_most_setbit) num1^=num;
+            else num2^=num;
+        }
+        return {num1,num2};
+    }
+};
