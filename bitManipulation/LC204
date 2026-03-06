@@ -1,0 +1,30 @@
+class Solution
+{
+public:
+    int countPrimes(int n)
+    {
+        vector<int> prime(n, 0); // used each index of vector to identify which nums are prime;
+        for (int i = 2; i < n; i++)
+            prime[i] = 1; // mark initially everyone as prime except 0 and 1.
+        for (int i = 2; i < sqrt(n); i++)
+        { // this loop is used to mark all multiples of numbers from 2 as 0. runs only for sqrt of n because 
+            //we start checking for multiple from i*i all previous multiples are covered by other numbers
+            //tc of this loop Nlog(log N) theoretical
+            if (prime[i])
+            {
+                for (int j = i * i; j < n; j += i)
+                    prime[j] = 0;
+            }
+        }
+        int cnt = 0;
+        for (int i = 2; i < n; i++)
+        {
+            if (prime[i])
+                cnt++;
+        }
+        return cnt;
+    }
+};
+
+overall tc O(N)+O(Nlog(log N))+O(N)
+sc O(N)
