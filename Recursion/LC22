@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void helper (int i, int open, int close, string &curr, vector<string> &res,int n) {
+        //max pairs that can be possible is n, means the index can vary from 0 to 2n-1
+        //when it reaches 2n the string is completed
+        if (i==2*n) {
+            res.push_back(curr);
+            return;
+        }
+        //total no. of open brackets must be less than n for valid parantheses
+        if (open<n) {
+            curr.push_back('(');
+            helper(i+1,open+1,close,curr,res,n);
+            curr.pop_back();//pop recently inserted while backtracking
+        }
+        //A valid parantheses cant start with closed bracket, so no. of closed bracket should not exceed open.
+        if (close<open) {
+            curr.push_back(')');
+            helper(i+1,open,close+1,curr,res,n);
+            curr.pop_back();
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        string curr="";
+        vector<string> res;
+        helper(0,0,0,curr,res,n);
+        return res;
+    }
+};

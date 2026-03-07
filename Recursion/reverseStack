@@ -19,3 +19,23 @@ class Solution {
         insertBottom(st,topval);
     }
 };
+
+tc of insertbottom()
+    Phase 1 — Recursion (popping)
+    The function keeps popping until the stack becomes empty.
+    pop n elements
+    n operations
+
+    Phase 2 — Base Case
+    When stack becomes empty:
+    push(val)
+    1 operation
+
+    Phase 3 — Backtracking (pushing back)
+    push n elements
+    n operations
+
+    2n + 1, T(n)=O(n)
+
+reverseStack()
+    total tc: o(n2)
