@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        int n=nums.size();
+        int ind=2*n-1;//hyhpothetical index
+        stack<int>st;//stack to store elements in decreasing oreder
+        vector<int> res(n,-1);
+        while (ind>=0) {
+            int orig_ind=ind%n;//retrieve original index
+            while (!st.empty() && st.top()<=nums[orig_ind]) st.pop();
+            if (!st.empty() && ind<n) res[ind]=st.top();//update res only when ind<n
+            st.push(nums[orig_ind]);
+            ind--; 
+        }
+        return res;
+    }
+};
