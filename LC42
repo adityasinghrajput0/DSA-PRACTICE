@@ -1,0 +1,77 @@
+Intuition
+Water can be trapped between two bars if there is a taller bar on the left and a taller bar on the right.
+The amount of water stored at any index depends on the minimum height of the nearest greater bars on both sides.
+
+So for each position i, the trapped water is:
+
+water at i = min(left boundary, right boundary) − height[i]
+
+If the value is positive, water can be stored at that position.
+
+To compute this, we find:
+
+the nearest greater bar on the right side
+
+the nearest greater bar on the left side
+
+We use a stack to efficiently track these greater heights.
+
+Approach
+Create two arrays:
+
+right_gt → stores the nearest greater height on the right.
+
+left_gt → stores the nearest greater height on the left.
+
+Traverse the array from right to left:
+
+Use a stack to remove smaller elements.
+
+The remaining top element represents the nearest greater height on the right.
+
+Clear the stack.
+
+Traverse the array from left to right:
+
+Again remove smaller elements from the stack.
+
+The top element represents the nearest greater height on the left.
+
+For each index:
+
+Calculate trapped water using
+min(right_gt[i], left_gt[i]) - height[i].
+
+If the result is positive, add it to the total water.
+
+Complexity
+Time complexity:
+O(n)
+Space complexity:
+O(n)
+Code
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        vector<int> right_gt(height.size(),0);
+        vector<int> left_gt(height.size(),0);
+        stack<int> st;
+        for (int i=height.size()-1; i>=0; i--) {
+            while (!st.empty() && st.top()<height[i]) st.pop();
+            if (!st.empty()) right_gt[i]=st.top();
+            if (st.empty() || st.top()<height[i]) st.push(height[i]);
+        }
+        while (!st.empty()) st.pop();
+        for (int i=0; i<height.size(); i++) {
+            while (!st.empty() && st.top()<height[i]) st.pop();
+            if (!st.empty()) left_gt[i]=st.top();
+            if (st.empty() || st.top()<height[i]) st.push(height[i]);
+        }
+        int ans=0;
+        for (int i=0; i<height.size(); i++) {
+            int vol_water=min(right_gt[i],left_gt[i])-height[i];
+            if (vol_water>0) ans+=vol_water;
+        }
+        return ans;
+    }
+};
