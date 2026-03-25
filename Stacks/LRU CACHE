@@ -1,0 +1,70 @@
+class LRUCache {
+public:
+    int limit;
+    struct Node {
+        int key,val;
+        Node* prev;
+        Node* next;
+        Node (int k, int v) {
+            key=k;
+            val=v;
+            prev=NULL;
+            next=NULL;
+        }
+    };
+    Node* head= new Node(-1,-1);
+    Node* tail= new Node(-1,-1);
+   
+    void insertFront (Node* head, Node* newnode) {
+        Node* nextNode=head->next;
+        head->next=newnode;
+        newnode->prev=head;
+        newnode->next=nextNode;
+        nextNode->prev=newnode;
+    }
+    void deletenode (Node* node) {
+        node->prev->next=node->next;
+        node->next->prev=node->prev;
+    }
+    unordered_map<int,Node*> hash; //for fast access of nodes
+    LRUCache(int capacity) {
+        limit=capacity;
+        head->next=tail; //the below statements must be written here only the class body is meant for
+        tail->prev=head;// declaration only not for execution.
+    }
+    
+    int get(int key) {
+        if (hash.find(key)==hash.end()) return -1;
+        Node* node=hash[key]; // if you are accessing a key it should be moved at front simultaneously.
+        int value=node->val;
+        deletenode(node);
+        insertFront(head,node);
+        return value;
+    }
+    
+    void put(int key, int value) {
+        if (hash.find(key)!=hash.end()) { //if the key already exists in hash map update the value of key ,
+            Node* node = hash[key]; //at the same time delete the node and move at front;
+            node->val=value;
+            deletenode(node);
+            insertFront(head,node);
+            return;
+        }
+        if (hash.size()==limit) {
+            Node* node=tail->prev; //if the limit reaches delete tail's previous node because it is the least recent
+            deletenode(node); // used.
+            hash.erase(node->key);
+            delete node;
+        }
+        Node* newnode= new Node(key,value);
+        insertFront(head,newnode);
+        hash[key]=newnode;
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
