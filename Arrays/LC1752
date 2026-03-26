@@ -1,0 +1,22 @@
+// 1752. Check if Array Is Sorted and Rotated
+
+class Solution
+{
+public:
+    bool check(vector<int> &nums)
+    {
+        if (nums.size() < 2)
+            return true;
+        int count = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (nums[i] > nums[(i + 1) % nums.size()])
+                count++; // if array is sorted in rotated manner there will be only one occurence
+            // where nums[i]>nums[i+1]
+        }
+        if (count > 1)
+            return false;
+        else
+            return true;
+    }
+};
