@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int left=0,right;
+        int ans=0;
+        unordered_map<int,int> hash;
+        for (right=0; right<fruits.size(); right++) {
+            hash[fruits[right]]++; //keep adding new fruits
+            while ((int)hash.size()>2) { //when baskets carries more than 2 types start removing the old fruits until it has only 2 types;
+                hash[fruits[left]]--;
+                if (hash[fruits[left]]==0) {
+                    hash.erase(fruits[left]);
+                }
+                left++;
+            }
+            ans=max(ans,right-left+1)
+        }
+        return ans;
+        
+    }
+};

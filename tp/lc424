@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int left=0,right;
+        int maxfreq=0,maxlen=0;
+        int hash[26]={0};
+        for (right=0; right<s.size(); right++) {
+            hash[s[right]-'A']++;
+            maxfreq=max(maxfreq,hash[s[right]-'A']); //update max freq at every time updating freq array
+            int len=right-left+1;
+            if (len-maxfreq>k) { //if len-maxfreq>k means window is not valid
+                //do left++ for  a single time only cuz we are looking for longest substring , there is no point in reducing
+                // the size of window , same goes for max freq
+                hash[s[left]-'A']--;
+                left++;
+            }
+            maxlen=max(maxlen,right-left+1);
+        }
+        return maxlen;
+    }
+};
