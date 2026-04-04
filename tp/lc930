@@ -1,0 +1,16 @@
+//prefix sum approach
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        unordered_map<int,int> hash;
+        int presum=0,cnt=0;
+        for (int i=0; i<nums.size(); i++) {
+            presum+=nums[i];
+            if (presum==goal) cnt++;
+            int rem=presum-goal;
+            if (hash.find(rem)!=hash.end()) cnt+=hash[rem];
+            hash[presum]++;
+        }
+        return cnt;
+    }
+};
