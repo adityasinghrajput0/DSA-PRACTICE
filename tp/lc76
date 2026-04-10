@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int hash[256]={0};
+        for (char ch: t) hash[ch]++;
+        int l=0,r=0;
+        int starti=-1;
+        int cnt=0;
+        int minlen=INT_MAX;
+        while (r<s.size()) {
+            if (hash[s[r]]>0) cnt++;
+            hash[s[r]]--;
+            while (cnt==t.size()) {
+                if (r-l+1<minlen) {
+                    starti=l;
+                    minlen=r-l+1;
+                }
+                hash[s[l]]++;
+                if (hash[s[l]]>0) cnt--;
+                l++;
+            }
+            r++;
+        }
+        return starti==-1?"":s.substr(starti,minlen);
+    }
+};

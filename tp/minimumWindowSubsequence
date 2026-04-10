@@ -1,0 +1,33 @@
+class Solution {
+  public:
+    string minWindow(string& s1, string& s2) {
+        // Code here
+        int i=0;
+        int startIndex=-1;
+        int minlen=INT_MAX;
+        //there is no expand shrink logic here..
+        //that's why we are using two pointer approach rather than using sliding window;
+        while (i<s1.size()) {  //consider each index as starting position
+            int j=i,k=0;
+            while (j<s1.size() && k<s2.size()) { //move forward for a valid window
+                if (s1[j]==s2[k]) k++;
+                j++;
+            }
+            if (k<s2.size()) break; //if there is no valid window in s1 break and return empty string
+            j--;
+            int end=j; //set end point of curr window
+            k=s2.size()-1;
+            while (k>=0) { //move in reverse while comparing to find out the optimal window.
+                if (s1[j]==s2[k]) k--;
+                j--;
+            }
+            int start=j+1;
+            if (end-start+1<minlen) { //if current window length is smaller than previous one store it.
+                startIndex=start;
+                minlen=end-start+1;
+            }
+            i=start+1;
+        }
+        return startIndex==-1?"":s1.substr(startIndex,minlen);
+    }
+};
