@@ -1,0 +1,45 @@
+class Solution {
+public:
+    void heapify(vector<int> &arr, int n, int i) { //heapify down
+            int curr=i;
+            while (true) {
+                int smallest=curr;
+                int left=curr*2+1;
+                int right=curr*2+2;
+
+                if (left<n && arr[left]<arr[smallest]) smallest=left;
+                if (right<n && arr[right]<arr[smallest]) smallest=right;
+
+                if (smallest!=curr) {
+                    swap(arr[smallest],arr[curr]);
+                    curr=smallest;
+                }
+                else break;
+            }
+    }
+
+    int findKthLargest(vector<int>& nums, int k) {
+        vector<int> heap;
+        for (int i=0; i<k; i++) { //inserting first k elements to create a min heap..
+            heap.push_back(nums[i]); 
+            int curr=i;
+            while (true) {
+                int parent=(curr-1)/2;
+                if (heap[parent]>heap[curr]) {
+                    swap(heap[parent],heap[curr]);
+                    curr=parent;
+                }
+                else break;
+            }
+        }
+        //maintain a min heap of k elements and track all the largest elements so that smallest 
+            //among those largest will be at the top , that will be the kth largest element
+        for (int i=k; i<nums.size(); i++) {
+            if (nums[i]>heap[0]) {
+                heap[0]=nums[i];
+                heapify(heap,k,0);
+            }
+        }
+        return heap[0];
+    }
+};
