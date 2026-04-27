@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void heapify (vector<int> &arr, int n, int i) {
+        int curr=i;
+        while (true) {
+            int smallest=curr;
+            int left=curr*2+1;
+            int right=curr*2+2;
+            
+            if (left<n && arr[left]<arr[smallest]) smallest=left;
+            if (right<n && arr[right]<arr[smallest]) smallest=right;
+
+            if (smallest != curr) {
+                swap(arr[smallest],arr[curr]);
+                curr=smallest;
+            }
+            else break;
+        }
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        vector<int> heap;
+        for (int i=0; i<lists.size(); i++) {//push each element of all the lists in a heap;
+            ListNode* temp=lists[i];
+            while (temp!=nullptr) {
+                heap.push_back(temp->val);
+                temp=temp->next;
+            }            
+        }
+        int n=heap.size();
+        for (int i=(n/2)-1; i>=0; i--) {
+            heapify(heap,n,i);
+        }
+        ListNode* head=new ListNode(-1);
+        ListNode* tail=head;
+        while (!heap.empty()) { //maintain the min heap and extract smallest element and build the sorted list
+            ListNode* newNode=new ListNode(heap[0]);
+            tail->next=newNode;
+            tail=newNode;
+            heap[0]=heap.back();
+            heap.pop_back();
+            heapify(heap,heap.size(),0);
+        }
+        return head->next;
+    }
+};
