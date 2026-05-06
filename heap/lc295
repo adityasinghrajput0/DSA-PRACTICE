@@ -1,0 +1,43 @@
+    class MedianFinder {
+    public:
+        priority_queue<int> maxHeap; //record smaller half
+        priority_queue<int,vector<int>,greater<int>> minHeap; //record greater half
+        //at the end maxheap return biggest element in smaller half and minheap return smaller element in larger half;
+        MedianFinder() {
+            
+        }
+        
+        void addNum(int num) {
+            if (maxHeap.empty() || num<maxHeap.top()) maxHeap.push(num); //push first element to maxHeap or push when num<top ele
+            //of maxheap
+            else minHeap.push(num);
+
+            if (maxHeap.size()-minHeap.size()==2) { //if size diff bw two heap is greater than 1 it means heaps are 
+                //unbalanced. To rebalance it push top element of maxheap to minheap if size of maxheap > minheap;
+                int top=maxHeap.top(); 
+                maxHeap.pop();
+                minHeap.push(top);
+            }
+            else if (minHeap.size()-maxHeap.size()==2) {
+                int top=minHeap.top(); 
+                minHeap.pop();
+                maxHeap.push(top);
+            }
+        }
+        
+        double findMedian() {
+            int n1=maxHeap.size();
+            int n2=minHeap.size();
+            if (n1==n2) return (double)(maxHeap.top()+minHeap.top())/2; //if both halves size is equal return 
+            // sum of middle values
+            else if (n1>n2) return maxHeap.top(); //return top element of heap whose size is greater;
+            return minHeap.top();
+        }
+    };
+
+    /**
+    * Your MedianFinder object will be instantiated and called as such:
+    * MedianFinder* obj = new MedianFinder();
+    * obj->addNum(num);
+    * double param_2 = obj->findMedian();
+    */
