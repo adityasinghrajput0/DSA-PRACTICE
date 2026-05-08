@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    int longestSubarray(vector<int>& arr, int k) {
+        // code here
+        int maxlen=0; //track maxlen of subarray with sum k
+        int r=0;
+        int sum=0;
+        unordered_map<int,int> hash; //store indices of sum 
+        while (r<arr.size()) {
+            sum+=arr[r];
+            if (sum==k) maxlen=max(maxlen,r+1);
+            int rem=sum-k;
+            if (hash.find(rem)!=hash.end()) { //if we have a previous stored sum which gives the desired result then proceed.
+                int len=r-hash[rem];
+                maxlen=max(maxlen,len);
+            }
+            if (hash.find(sum)==hash.end()) hash[sum]=r; //as we want the maxlen so update only when it is not there in hash
+            // and use the index of sum stored in the beginning of iteration.
+            r++;
+        }
+        return maxlen;
+    }
+};
