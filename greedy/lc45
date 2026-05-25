@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int left=0,right=0;
+        int n=nums.size(),jumps=0;
+        //Iterate through array and record which window can be achieved in a particular no. of jump.
+        while (right<n-1) {
+            int farthest=0; //rightmost end that can be achieved in any no. of jump
+            for (int i=left; i<=right; i++) {
+                farthest=max(farthest,i+nums[i]);
+            }
+            left=right+1;
+            right=farthest;
+            jumps++;
+        }
+        return jumps;
+    }
+};
