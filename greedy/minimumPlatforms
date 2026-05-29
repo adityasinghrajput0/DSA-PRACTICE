@@ -1,0 +1,32 @@
+class Solution {
+  public:
+    static bool asc (pair<int,int> a, pair<int,int> b) {
+        return a.first<b.first;
+    }
+    int minPlatform(vector<int>& arr, vector<int>& dep) {
+        // code here
+        vector<pair<int,int>> timings;
+        for (int i=0; i<arr.size(); i++) {
+            timings.push_back({arr[i],dep[i]});
+        }
+        sort (timings.begin(), timings.end(), asc); //sort timing of trains according to arrival time;
+        priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> pq; //store free time of train with platform no.
+        //heap also let us know which platform will be free earliest.
+        int platforms=1;
+        pq.push({timings[0].second,platforms});
+        
+        for (int i=1; i<timings.size(); i++) {
+            auto top=pq.top();
+            if (timings[i].first<=top.first) { //if the arrival of current train is less than or equal to free time a new platform is needed.
+                platforms++;
+                pq.push({timings[i].second,platforms});
+            }
+            else { //else reuse same platform;
+                pq.pop();
+                int pltfrm=top.second;
+                pq.push({timings[i].second,pltfrm});
+            }
+        }
+        return platforms;
+    }
+};

@@ -1,0 +1,36 @@
+class Solution {
+  public:
+  
+    int find (int x, vector<int> &parent) { //to record next empty slot for current job
+        if (parent[x]==x) return x;
+        int root=find(parent[x],parent);
+        parent[x]=root;
+        return root;
+    }
+    vector<int> jobSequencing(vector<int> &deadline, vector<int> &profit) {
+        // code here
+        int n=*max_element(deadline.begin(),deadline.end()); //max days available for work
+        vector<int> parent(n+1); //track empty slot for each job;
+        for (int i=0; i<=n; i++) { 
+            parent[i]=i;
+        }
+        priority_queue<pair<int,int>> pq; //sorted jobs based on profit;
+        for (int i=0; i<deadline.size(); i++) {
+            pq.push({profit[i],deadline[i]});
+        }
+        int maxProfit=0;
+        int count=0;
+        while (!pq.empty()) {
+            auto top=pq.top(); pq.pop();
+            int ind=top.second;
+            int currprofit=top.first;
+            int slot= find(ind,parent); //free slot for current job
+            if (slot>0) {
+                maxProfit+=currprofit;
+                count++;
+                parent[slot]=find(slot-1,parent);
+            }
+        }
+        return {count,maxProfit};
+    }
+};
