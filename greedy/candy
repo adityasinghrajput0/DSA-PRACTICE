@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n=ratings.size();
+        vector<int> candies(n,1); //initialise each child with one candy to satisfy first conditn.
+
+        for (int i=1; i<n; i++) {//comapare with left neighbors
+            if (ratings[i]>ratings[i-1]) candies[i]=max(candies[i],candies[i-1]+1); //max of both comparision will satisfy both the conditions
+        }
+
+        for (int i=n-2; i>=0; i--) {// compare with right neighbors
+            if (ratings[i]>ratings[i+1]) candies[i]=max(candies[i],candies[i+1]+1);
+        }
+        int sum=0;
+        for (int c: candies) sum+=c;
+        return sum;
+    }
+};
