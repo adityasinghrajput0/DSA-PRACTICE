@@ -33,3 +33,37 @@ class Solution {
         return false;
     }
 };
+
+//dfs
+class Solution {
+  public:
+    bool dfs (int node, vector<vector<int>> &adj, vector<int> &visited, vector<int>&parent) {
+        visited[node]=1;
+        for (int neighbour:adj[node]) {
+            if (!visited[neighbour]) {
+                parent[neighbour]=node;
+                if(dfs(neighbour, adj, visited, parent)) return true;
+            }
+            else if (parent[node]!=neighbour) return true;
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<vector<int>> adj(V);
+        vector<int> visited(V,0);
+        vector<int> parent(V,-1);
+        for (int i=0; i<edges.size(); i++) {
+            int u=edges[i][0];
+            int v=edges[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        for (int i=0; i<V; i++) {
+            if (!visited[i]) {
+                if (dfs(i,adj,visited,parent)) return true;
+            }
+        }
+        return false;
+    }
+};
